@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Opportunity Audit Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Audit workspace navigation">
+        <div class="brand">
+          <span class="brand-mark">AO</span>
+          <div>
+            <strong>AuditOS</strong>
+            <small>AI opportunity agent</small>
+          </div>
+        </div>
+        <nav>
+          <a href="#brief">Project brief</a>
+          <a href="#sources">Evidence sources</a>
+          <a href="#screens">Screen flow</a>
+          <a href="#agent">Agent run</a>
+          <a href="#opportunities">Opportunities</a>
+          <a href="#report">Report</a>
+        </nav>
+      </aside>
+
+      <main>
+        <section class="hero">
+          <div>
+            <p class="product-label">UX audit workspace</p>
+            <h1>Turn product links, documents, and screen flows into an AI opportunity report.</h1>
+            <p>
+              Built for UX designers auditing existing SaaS products. Capture evidence, organize screenshot sequences,
+              run an agent-style audit, and prepare the next phase: ideation, finalization, and wireframe design.
+            </p>
+          </div>
+          <div class="hero-card">
+            <span class="metric-label">Audit readiness</span>
+            <strong id="readiness-score">0%</strong>
+            <p id="readiness-copy">Add a project brief, at least one source, and one screen flow to start.</p>
+            <button class="button primary" id="run-agent-top" type="button">Run audit agent</button>
+          </div>
+        </section>
+
+        <section class="panel" id="brief">
+          <div class="section-heading">
+            <div>
+              <h2>Project Brief</h2>
+              <p>Define the product, users, business pressure, and audit objective before uploading evidence.</p>
+            </div>
+            <button class="button ghost" id="load-demo" type="button">Load pharma demo</button>
+          </div>
+          <div class="form-grid">
+            <label>
+              Product or service name
+              <input id="product-name" type="text" placeholder="Clinical research operations platform" />
+            </label>
+            <label>
+              Industry/domain
+              <input id="domain" type="text" placeholder="Pharma research SaaS" />
+            </label>
+            <label>
+              Primary users
+              <input id="users" type="text" placeholder="Study managers, reviewers, coordinators" />
+            </label>
+            <label>
+              Audit goal
+              <input id="goal" type="text" placeholder="Find AI opportunities to reduce manual study setup effort" />
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>
+              Existing product/service URL
+              <input id="product-url" type="url" placeholder="https://product.example.com/workflow" />
+            </label>
+            <label>
+              Product stage
+              <select id="product-stage">
+                <option>Existing product</option>
+                <option>Internal tool</option>
+                <option>Service workflow</option>
+                <option>Early SaaS prototype</option>
+              </select>
+            </label>
+          </div>
+          <label class="wide-field">
+            Constraints, compliance, or known risks
+            <textarea
+              id="constraints"
+              rows="4"
+              placeholder="Regulated data, audit trails, role-based approvals, validation requirements"
+            ></textarea>
+          </label>
+        </section>
+
+        <section class="panel" id="sources">
+          <div class="section-heading">
+            <div>
+              <h2>Evidence Sources</h2>
+              <p>Add product links and upload workflow documents. PDF, Word, image, and text files are accepted as audit evidence.</p>
+            </div>
+            <button class="button secondary" id="add-link" type="button">Add link</button>
+          </div>
+          <div class="source-grid">
+            <div class="drop-zone">
+              <input
+                id="document-upload"
+                type="file"
+                multiple
+                accept=".pdf,.doc,.docx,.txt,.md,.png,.jpg,.jpeg,.webp"
+              />
+              <strong>Upload documents</strong>
+              <span>PDF, Word, text, product screenshots, SOPs, research notes, support exports</span>
+            </div>
+            <div>
+              <h3>Product/service links</h3>
+              <div class="link-list" id="link-list"></div>
+            </div>
+          </div>
+          <div class="asset-list" id="document-list"></div>
+        </section>
+
+        <section class="panel" id="screens">
+          <div class="section-heading">
+            <div>
+              <h2>Screenshot Flow</h2>
+              <p>Upload screenshots in sequence so the agent can infer the user journey, decision points, and handoffs.</p>
+            </div>
+            <button class="button secondary" id="add-empty-screen" type="button">Add manual step</button>
+          </div>
+          <div class="drop-zone compact">
+            <input id="screenshot-upload" type="file" multiple accept=".png,.jpg,.jpeg,.webp" />
+            <strong>Upload ordered screenshots</strong>
+            <span>Select files in flow order or edit the step numbers after upload.</span>
+          </div>
+          <div class="screen-flow" id="screen-flow"></div>
+        </section>
+
+        <section class="panel" id="agent">
+          <div class="section-heading">
+            <div>
+              <h2>Agent Execution</h2>
+              <p>The agent runs the audit stages needed to move from evidence to implementation-ready recommendations.</p>
+            </div>
+            <button class="button primary" id="run-agent" type="button">Run audit agent</button>
+          </div>
+          <div class="agent-grid" id="agent-grid"></div>
+        </section>
+
+        <section class="panel" id="opportunities">
+          <div class="section-heading">
+            <div>
+              <h2>AI Opportunity Matrix</h2>
+              <p>Ranked opportunities based on workflow friction, evidence quality, AI fit, data readiness, and risk.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Opportunity</th>
+                  <th>AI feature</th>
+                  <th>Evidence</th>
+                  <th>Score</th>
+                  <th>Bucket</th>
+                  <th>Next UX artifact</th>
+                </tr>
+              </thead>
+              <tbody id="matrix-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" id="report">
+          <div class="section-heading">
+            <div>
+              <h2>Recommendation Report</h2>
+              <p>Use this as the handoff for ideation, feature finalization, wireframes, and engineering discussion.</p>
+            </div>
+            <div class="button-row">
+              <button class="button secondary" id="copy-report" type="button">Copy report</button>
+              <button class="button ghost" id="download-report" type="button">Download .md</button>
+            </div>
+          </div>
+          <textarea id="report-output" class="report-output" rows="28" spellcheck="false"></textarea>
+        </section>
+      </main>
+    </div>
+
+    <template id="link-template">
+      <article class="link-card">
+        <label>
+          URL
+          <input data-link-field="url" type="url" placeholder="https://example.com/product-flow" />
+        </label>
+        <label>
+          Notes
+          <input data-link-field="notes" type="text" placeholder="Login flow, dashboard, support portal, public service page" />
+        </label>
+        <button class="icon-button remove-link" type="button" aria-label="Remove link">x</button>
+      </article>
+    </template>
+
+    <template id="screen-template">
+      <article class="screen-card">
+        <div class="screen-preview" data-preview>Step</div>
+        <div class="screen-fields">
+          <div class="screen-row">
+            <label>
+              Step
+              <input data-screen-field="step" type="number" min="1" value="1" />
+            </label>
+            <label>
+              Screen name
+              <input data-screen-field="name" type="text" placeholder="Review protocol details" />
+            </label>
+            <button class="icon-button remove-screen" type="button" aria-label="Remove screen">x</button>
+          </div>
+          <label>
+            UX notes / user action / observed friction
+            <textarea data-screen-field="notes" rows="3" placeholder="User checks extracted values, compares source document, then approves or edits fields"></textarea>
+          </label>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="./runner.js"></script>
+  </body>
+</html>
